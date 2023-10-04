@@ -62,17 +62,29 @@ class Tree {
       tempNode = tempNode.left;
     }
     node.data = tempNode.data;
+    console.log(tempNode.data);
     node.right = this.delete(tempNode.data, node.right);
     return node;
+  }
+
+  find(val, node = this.root) {
+    let result;
+    if (val === node.data) return node;
+    else if (val < node.data) {
+      result = this.find(val, node.left);
+    } else if (val > node.data) {
+      result = this.find(val, node.right);
+    }
+    return result;
   }
 }
 
 const tree = new Tree([
   1, 1, 1, 7, 4, 23, 8, 9, 2, 3, 5, 17, 90, 67, 6345, 324,
 ]);
-// tree.insert(6);
-tree.delete(8);
-console.log(tree);
+
+console.log(tree.find(8));
+
 prettyPrint(tree.root);
 
 function prettyPrint(node, prefix = "", isLeft = true) {
