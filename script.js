@@ -91,13 +91,22 @@ class Tree {
     }
     return arr;
   }
+
+  preorder(node = this.root, arr = []) {
+    if (node === null) return;
+    arr.push(node.data);
+    this.preorder(node.left, arr);
+    this.preorder(node.right, arr);
+    return arr;
+  }
+  inorder() {}
 }
 
 const tree = new Tree([
   1, 1, 1, 7, 4, 23, 8, 9, 2, 3, 5, 17, 90, 67, 6345, 324,
 ]);
 
-console.log(tree.levelOrder((n) => n * 1));
+console.log(tree.preorder());
 
 prettyPrint(tree.root);
 
