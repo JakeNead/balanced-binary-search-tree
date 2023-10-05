@@ -92,21 +92,45 @@ class Tree {
     return arr;
   }
 
-  preorder(node = this.root, arr = []) {
+  preorder(callback, node = this.root, arr = []) {
     if (node === null) return;
-    arr.push(node.data);
-    this.preorder(node.left, arr);
-    this.preorder(node.right, arr);
+    if (callback) {
+      arr.push(callback(node.data));
+    } else arr.push(node.data);
+    this.preorder(callback, node.left, arr);
+    this.preorder(callback, node.right, arr);
     return arr;
   }
-  inorder() {}
+
+  inorder(callback, node = this.root, arr = []) {
+    if (node === null) return;
+    this.preorder(callback, node.left, arr);
+
+    if (callback) {
+      arr.push(callback(callback, node.data));
+    } else arr.push(node.data);
+
+    this.preorder(callback, node.right, arr);
+
+    return arr;
+  }
+
+  postorder(callback, node = this.root, arr = []) {
+    if (node === null) return;
+    this.preorder(callback, node.left, arr);
+    this.preorder(callback, node.right, arr);
+    if (callback !== undefined) {
+      arr.push(callback(node.data));
+    } else arr.push(node.data);
+    return arr;
+  }
 }
 
 const tree = new Tree([
   1, 1, 1, 7, 4, 23, 8, 9, 2, 3, 5, 17, 90, 67, 6345, 324,
 ]);
 
-console.log(tree.preorder());
+console.log(tree.postorder((a) => a * 2));
 
 prettyPrint(tree.root);
 
