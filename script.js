@@ -124,13 +124,50 @@ class Tree {
     } else arr.push(node.data);
     return arr;
   }
+
+  height(val, node = this.root) {
+    if (node === null) return -1;
+    if (val === node.data) return this.heightFromNode(node);
+    else if (val < node.data) return this.height(val, node.left);
+    else if (val > node.data) return this.height(val, node.right);
+  }
+
+  heightFromNode(node) {
+    if (node === null) return -1;
+
+    const leftHeight = this.heightFromNode(node.left);
+    const rightHeight = this.heightFromNode(node.right);
+
+    return Math.max(leftHeight, rightHeight) + 1;
+  }
+
+  depth(val, node = this.root, num = 0) {
+    if (node === null) return "error";
+    else if (val === node.data) return num;
+    else if (val < node.data) return this.depth(val, node.left, (num += 1));
+    else if (val > node.data) return this.depth(val, node.right, (num += 1));
+  }
+
+  isBalanced(node = this.root) {
+    if (node === null) return true;
+    let left = this.heightFromNode(node.left);
+    let right = this.heightFromNode(node.right);
+    return (
+      Math.abs(left - right) <= 1 &&
+      this.isBalanced(node.left) == true &&
+      this.isBalanced(node.right) == true
+    );
+  }
 }
 
-const tree = new Tree([
-  1, 1, 1, 7, 4, 23, 8, 9, 2, 3, 5, 17, 90, 67, 6345, 324,
-]);
+const tree = new Tree([1, 2, 3, 4, 5]);
+// 1, 1, 1, 7, 4, 23, 8, 9, 2, 3, 5, 17, 90, 67, 6345, 324,
 
-console.log(tree.postorder((a) => a * 2));
+// tree.insert(5643);
+// tree.insert(2.2);
+// tree.insert(5663);
+// tree.insert(5673);
+console.log(tree.isBalanced());
 
 prettyPrint(tree.root);
 
