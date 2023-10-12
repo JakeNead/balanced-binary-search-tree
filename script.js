@@ -164,19 +164,6 @@ class Tree {
   }
 }
 
-const tree = new Tree([
-  1, 2, 3, 4, 51, 7, 4, 23, 8, 9, 2, 3, 5, 17, 90, 67, 6345, 324,
-]);
-
-tree.insert(5643);
-tree.insert(2.2);
-tree.insert(5663);
-tree.insert(5673);
-
-tree.rebalance();
-console.log(tree.isBalanced());
-prettyPrint(tree.root);
-
 function prettyPrint(node, prefix = "", isLeft = true) {
   if (node === null) {
     return;
@@ -189,3 +176,40 @@ function prettyPrint(node, prefix = "", isLeft = true) {
     prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
 }
+
+function randomNumbers() {
+  const arr = [];
+  for (let i = 0; i < 100; i++) {
+    arr.push(Math.floor(Math.random() * 100));
+  }
+  return arr;
+}
+
+function randomBigNumbers() {
+  const arr = [];
+  for (let i = 0; i < 15; i++) {
+    arr.push(Math.floor(Math.random() * 100 + 100));
+  }
+  return arr;
+}
+
+function showOffBST() {
+  const tree = new Tree(randomNumbers());
+
+  console.log("Tree is balanced?", tree.isBalanced());
+  console.log(
+    "preorder",
+    tree.preorder(),
+    "inorder",
+    tree.inorder(),
+    "postorder",
+    tree.postorder()
+  );
+  randomBigNumbers().forEach((n) => tree.insert(n));
+  console.log("Tree is balanced?", tree.isBalanced());
+  tree.rebalance();
+  console.log("Tree is balanced?", tree.isBalanced());
+  prettyPrint(tree.root);
+}
+
+showOffBST();
