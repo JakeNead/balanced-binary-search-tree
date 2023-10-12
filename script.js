@@ -132,7 +132,7 @@ class Tree {
     else if (val > node.data) return this.height(val, node.right);
   }
 
-  heightFromNode(node) {
+  heightFromNode(node = this.root) {
     if (node === null) return -1;
 
     const leftHeight = this.heightFromNode(node.left);
@@ -158,17 +158,23 @@ class Tree {
       this.isBalanced(node.right) == true
     );
   }
+
+  rebalance() {
+    this.root = this.buildTree(this.preorder());
+  }
 }
 
-const tree = new Tree([1, 2, 3, 4, 5]);
-// 1, 1, 1, 7, 4, 23, 8, 9, 2, 3, 5, 17, 90, 67, 6345, 324,
+const tree = new Tree([
+  1, 2, 3, 4, 51, 7, 4, 23, 8, 9, 2, 3, 5, 17, 90, 67, 6345, 324,
+]);
 
-// tree.insert(5643);
-// tree.insert(2.2);
-// tree.insert(5663);
-// tree.insert(5673);
+tree.insert(5643);
+tree.insert(2.2);
+tree.insert(5663);
+tree.insert(5673);
+
+tree.rebalance();
 console.log(tree.isBalanced());
-
 prettyPrint(tree.root);
 
 function prettyPrint(node, prefix = "", isLeft = true) {
